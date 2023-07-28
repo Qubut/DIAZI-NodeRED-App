@@ -1,13 +1,5 @@
 [
     {
-        "id": "1a7f55c947897d20",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "3e2778b895b77ae2",
         "type": "tab",
         "label": "Flow 2",
@@ -16,10 +8,42 @@
         "env": []
     },
     {
-        "id": "ca73e8ec053ff923",
+        "id": "1a7f55c947897d20",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ef746ee16c2bfc2d",
+        "type": "http request",
+        "z": "3e2778b895b77ae2",
+        "name": "Admin",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://haw.ifox-systems.de/api/v1/general/Auth/login",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 390,
+        "y": 160,
+        "wires": [
+            [
+                "161395b9f8147647"
+            ]
+        ]
+    },
+    {
+        "id": "3c346c7b931e2540",
         "type": "inject",
-        "z": "1a7f55c947897d20",
-        "name": "",
+        "z": "3e2778b895b77ae2",
+        "name": "data",
         "props": [
             {
                 "p": "payload"
@@ -33,90 +57,51 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"name\":\"Taiji\"}",
+        "topic": "authorization",
+        "payload": "{\"userName\":\"test\",\"password\":\"password\"}",
         "payloadType": "json",
-        "x": 260,
+        "x": 210,
         "y": 160,
         "wires": [
             [
-                "5ff974596e6f9386"
+                "ef746ee16c2bfc2d"
             ]
         ]
     },
     {
-        "id": "5ff974596e6f9386",
-        "type": "debug",
-        "z": "1a7f55c947897d20",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 520,
-        "y": 220,
-        "wires": []
+        "id": "161395b9f8147647",
+        "type": "json",
+        "z": "3e2778b895b77ae2",
+        "name": "parser",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 530,
+        "y": 160,
+        "wires": [
+            [
+                "64592643899f9f3c"
+            ]
+        ]
     },
     {
-        "id": "28032a3fb82ae195",
-        "type": "complete",
-        "z": "1a7f55c947897d20",
-        "name": "",
-        "scope": [
-            "ca73e8ec053ff923"
+        "id": "64592643899f9f3c",
+        "type": "link out",
+        "z": "3e2778b895b77ae2",
+        "name": "Authorization",
+        "mode": "link",
+        "links": [
+            "bc259971c5588423"
         ],
-        "uncaught": false,
-        "x": 150,
-        "y": 240,
-        "wires": [
-            [
-                "5ff974596e6f9386"
-            ]
-        ]
-    },
-    {
-        "id": "2dc6bad7a2322ddb",
-        "type": "catch",
-        "z": "1a7f55c947897d20",
-        "name": "",
-        "scope": null,
-        "uncaught": false,
-        "x": 140,
-        "y": 300,
-        "wires": [
-            [
-                "5ff974596e6f9386"
-            ]
-        ]
-    },
-    {
-        "id": "6495382e70debf8f",
-        "type": "function",
-        "z": "1a7f55c947897d20",
-        "name": "generate random number",
-        "func": "// generate random number\nvar min = 1;\nvar max = 10;\nvar a = Math.floor(Math.random() * (max + 1 - min)) +\n    min;\n// set random number to message\nmsg.payload = a;\n// return message\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 330,
-        "y": 440,
-        "wires": [
-            [
-                "7f0fa86257b49f14",
-                "978364a6a1715966"
-            ]
-        ]
+        "x": 835,
+        "y": 160,
+        "wires": []
     },
     {
         "id": "3934529b6276908e",
         "type": "inject",
         "z": "1a7f55c947897d20",
-        "name": "",
+        "name": "json-injector",
         "props": [
             {
                 "p": "payload"
@@ -130,15 +115,14 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 120,
-        "y": 380,
+        "topic": "data",
+        "payload": "{\"Author\":\"DUALIS\",\"Date\":\"2023-06-29\",\"Duration of Simulation\":\"0:02:31\",\"Szenario\":\"Szenario 1\",\"VC Layout File\":\"Turning machine layout.vcmx\",\"activities\":[{\"end\":\"2023-06-29 00:00:15.667447\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:12.229460\"},{\"end\":\"2023-06-29 00:00:17.667447\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:15.667447\"},{\"end\":\"2023-06-29 00:00:22.295757\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:17.667447\"},{\"end\":\"2023-06-29 00:00:24.295757\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:22.295757\"},{\"end\":\"2023-06-29 00:00:25.755000\",\"externProcessId\":\"Idle\",\"externProductId\":\"\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:24.297757\"},{\"end\":\"2023-06-29 00:00:27.835334\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:25.755000\"},{\"end\":\"2023-06-29 00:00:29.835334\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part2\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:27.835334\"},{\"end\":\"2023-06-29 00:00:32.141022\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part2\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:29.835334\"},{\"end\":\"2023-06-29 00:00:34.141022\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part2\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:32.141022\"},{\"end\":\"2023-06-29 00:00:35.755000\",\"externProcessId\":\"Idle\",\"externProductId\":\"\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:34.143022\"},{\"end\":\"2023-06-29 00:00:38.160578\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:35.755000\"},{\"end\":\"2023-06-29 00:00:40.160578\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part2\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:38.160578\"},{\"end\":\"2023-06-29 00:00:42.466265\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part2\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:40.160578\"},{\"end\":\"2023-06-29 00:00:44.466265\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part2\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:42.466265\"},{\"end\":\"2023-06-29 00:00:48.395328\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:44.467265\"},{\"end\":\"2023-06-29 00:00:50.395328\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:48.395328\"},{\"end\":\"2023-06-29 00:00:53.088268\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:50.395328\"},{\"end\":\"2023-06-29 00:00:55.088268\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:53.088268\"},{\"end\":\"2023-06-29 00:00:55.755000\",\"externProcessId\":\"Idle\",\"externProductId\":\"\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:55.090268\"},{\"end\":\"2023-06-29 00:00:57.827562\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:55.755000\"},{\"end\":\"2023-06-29 00:00:59.827562\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:57.827562\"},{\"end\":\"2023-06-29 00:01:01.629602\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:59.827562\"},{\"end\":\"2023-06-29 00:01:03.629602\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:01.629602\"},{\"end\":\"2023-06-29 00:01:13.631602\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:03.630602\"},{\"end\":\"2023-06-29 00:01:15.631602\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:13.631602\"},{\"end\":\"2023-06-29 00:01:18.074774\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:15.631602\"},{\"end\":\"2023-06-29 00:01:20.074774\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:18.074774\"},{\"end\":\"2023-06-29 00:01:24.004241\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:20.076774\"},{\"end\":\"2023-06-29 00:01:26.004241\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:24.004241\"},{\"end\":\"2023-06-29 00:01:30.690364\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:26.004241\"},{\"end\":\"2023-06-29 00:01:32.690364\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:30.690364\"},{\"end\":\"2023-06-29 00:01:34.771699\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:32.691364\"},{\"end\":\"2023-06-29 00:01:36.771699\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:34.771699\"},{\"end\":\"2023-06-29 00:01:38.573738\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:36.771699\"},{\"end\":\"2023-06-29 00:01:40.573738\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:38.573738\"},{\"end\":\"2023-06-29 00:01:50.575738\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:40.574738\"},{\"end\":\"2023-06-29 00:01:52.575738\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:50.575738\"},{\"end\":\"2023-06-29 00:01:55.018911\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:52.575738\"},{\"end\":\"2023-06-29 00:01:57.018911\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:55.018911\"},{\"end\":\"2023-06-29 00:00:12.229460\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:10\"},{\"end\":\"2023-06-29 00:00:14.229460\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:12.229460\"},{\"end\":\"2023-06-29 00:00:16.986373\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:14.229460\"},{\"end\":\"2023-06-29 00:00:18.986373\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:16.986373\"},{\"end\":\"2023-06-29 00:00:21.059935\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:18.987373\"},{\"end\":\"2023-06-29 00:00:23.059935\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:21.059935\"},{\"end\":\"2023-06-29 00:00:24.807878\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:23.059935\"},{\"end\":\"2023-06-29 00:00:26.807878\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:24.807878\"},{\"end\":\"2023-06-29 00:00:36.810878\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:26.808878\"},{\"end\":\"2023-06-29 00:00:44.466265\",\"externProcessId\":\"Idle\",\"externProductId\":\"\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:36.810878\"},{\"end\":\"2023-06-29 00:00:46.466265\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:44.466265\"},{\"end\":\"2023-06-29 00:00:49.727226\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:46.466265\"},{\"end\":\"2023-06-29 00:00:51.727226\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:49.727226\"},{\"end\":\"2023-06-29 00:00:54.133804\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:51.728226\"},{\"end\":\"2023-06-29 00:00:56.133804\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part2\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:54.133804\"},{\"end\":\"2023-06-29 00:00:58.439492\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part2\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:56.133804\"},{\"end\":\"2023-06-29 00:01:00.439492\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part2\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:58.439492\"},{\"end\":\"2023-06-29 00:01:05.755000\",\"externProcessId\":\"Idle\",\"externProductId\":\"\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:00.441492\"},{\"end\":\"2023-06-29 00:01:08.160578\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:05.755000\"},{\"end\":\"2023-06-29 00:01:10.160578\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"From Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:08.160578\"},{\"end\":\"2023-06-29 00:01:11.908521\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:10.160578\"},{\"end\":\"2023-06-29 00:01:13.908521\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:11.908521\"},{\"end\":\"2023-06-29 00:01:23.910521\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:13.909521\"},{\"end\":\"2023-06-29 00:01:25.910521\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:23.910521\"},{\"end\":\"2023-06-29 00:01:29.171482\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:25.910521\"},{\"end\":\"2023-06-29 00:01:31.171482\",\"externProcessId\":\"Busy\",\"externProductId\":\"Part1\",\"externResourceIdPerson\":\"To Conveyor Process\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:29.171482\"},{\"end\":\"2023-06-29 00:01:35.214403\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:31.173482\"},{\"end\":\"2023-06-29 00:01:37.214403\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:35.214403\"},{\"end\":\"2023-06-29 00:01:39.971317\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:37.214403\"},{\"end\":\"2023-06-29 00:01:41.971317\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:39.971317\"},{\"end\":\"2023-06-29 00:01:50.575738\",\"externProcessId\":\"Idle\",\"externProductId\":\"\",\"externResourceIdPerson\":\"Manual Workstation\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:41.973317\"},{\"end\":\"2023-06-29 00:01:52.464426\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:50.575738\"},{\"end\":\"2023-06-29 00:01:54.464426\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Shelf Buffer\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:52.464426\"},{\"end\":\"2023-06-29 00:01:59.088186\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:54.464426\"},{\"end\":\"2023-06-29 00:02:01.088186\",\"externProcessId\":\"Busy\",\"externProductId\":\"CopperTurningFixture\",\"externResourceIdPerson\":\"Manual Workstation #2\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:59.088186\"},{\"end\":\"2023-06-29 00:00:44.146022\",\"externProcessId\":\"Idle\",\"externProductId\":\"\",\"externResourceIdPerson\":\"RobotController\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:00\"},{\"end\":\"2023-06-29 00:00:51.080847\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"RobotController\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:44.146022\"},{\"end\":\"2023-06-29 00:00:54.471265\",\"externProcessId\":\"Idle\",\"externProductId\":\"\",\"externResourceIdPerson\":\"RobotController\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:51.080847\"},{\"end\":\"2023-06-29 00:01:01.735087\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"RobotController\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:00:54.471265\"},{\"end\":\"2023-06-29 00:01:33.080355\",\"externProcessId\":\"Idle\",\"externProductId\":\"\",\"externResourceIdPerson\":\"RobotController\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:01.735087\"},{\"end\":\"2023-06-29 00:01:48.834844\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"RobotController\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:33.080355\"},{\"end\":\"2023-06-29 00:01:51.201798\",\"externProcessId\":\"Idle\",\"externProductId\":\"\",\"externResourceIdPerson\":\"RobotController\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:48.834844\"},{\"end\":\"2023-06-29 00:02:05.253398\",\"externProcessId\":\"Busy\",\"externProductId\":\"\",\"externResourceIdPerson\":\"RobotController\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:01:51.201798\"},{\"end\":\"2023-06-29 00:02:30.834352\",\"externProcessId\":\"Idle\",\"externProductId\":\"\",\"externResourceIdPerson\":\"RobotController\",\"reason\":\"commend\",\"start\":\"2023-06-29 00:02:05.253398\"}]}",
+        "payloadType": "json",
+        "x": 230,
+        "y": 180,
         "wires": [
             [
-                "6495382e70debf8f",
-                "0f996fac0259dd29"
+                "822a541727bf0c26"
             ]
         ]
     },
@@ -151,86 +135,98 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 500,
-        "y": 380,
+        "x": 1100,
+        "y": 340,
         "wires": []
     },
     {
-        "id": "7f0fa86257b49f14",
+        "id": "d6acb8a1b4f7c3c9",
+        "type": "function",
+        "z": "1a7f55c947897d20",
+        "name": "extract Activities",
+        "func": "let payload = msg.payload;\nlet activities = payload.data?.activities;\n\nif (activities) {\n    let prefix = 'extern';\n\n    let { externActivities, internActivities } = activities.reduce((acc, activity) => {\n        if (Object.keys(activity).some(key => key.startsWith(prefix))) {\n            acc.externActivities.push(activity);\n        } else {\n            acc.otherActivities.push(activity);\n        }\n        return acc;\n    }, { externActivities: [], otherActivities: [] });\n\n    msg.payload = { externActivities, internActivities };\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 420,
+        "wires": [
+            [
+                "0fd1bebabd2d1507",
+                "2ebcb24d9a9e525d"
+            ]
+        ]
+    },
+    {
+        "id": "822a541727bf0c26",
+        "type": "json",
+        "z": "1a7f55c947897d20",
+        "name": "JSON parser",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 210,
+        "y": 280,
+        "wires": [
+            [
+                "88359554b30b8162"
+            ]
+        ]
+    },
+    {
+        "id": "0fd1bebabd2d1507",
         "type": "switch",
         "z": "1a7f55c947897d20",
-        "name": "Big and Small",
-        "property": "payload",
+        "name": "pass extern",
+        "property": "payload.externActivities",
         "propertyType": "msg",
         "rules": [
             {
-                "t": "gt",
-                "v": "5",
-                "vt": "num"
-            },
-            {
-                "t": "lt",
-                "v": "6",
-                "vt": "num"
+                "t": "nempty"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 2,
-        "x": 620,
-        "y": 460,
+        "outputs": 1,
+        "x": 490,
+        "y": 260,
         "wires": [
             [
-                "5d431436023ec066"
-            ],
-            [
-                "7c9d9342ae28d2a1"
+                "b836172e55de4f46"
             ]
         ]
     },
     {
-        "id": "5d431436023ec066",
-        "type": "template",
+        "id": "2ebcb24d9a9e525d",
+        "type": "switch",
         "z": "1a7f55c947897d20",
-        "name": "Output big",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "The number is big: {{payload}} !",
-        "output": "str",
-        "x": 950,
-        "y": 440,
+        "name": "pass intern",
+        "property": "payload.internActivities",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 430,
+        "y": 560,
         "wires": [
             [
-                "f140869ae6d4953f"
+                "6feced2934b3276b"
             ]
         ]
     },
     {
-        "id": "7c9d9342ae28d2a1",
-        "type": "template",
-        "z": "1a7f55c947897d20",
-        "name": "Output small",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "The number is small: {{payload}} !",
-        "output": "str",
-        "x": 910,
-        "y": 520,
-        "wires": [
-            [
-                "f140869ae6d4953f"
-            ]
-        ]
-    },
-    {
-        "id": "f140869ae6d4953f",
+        "id": "ea0b70bc99830f92",
         "type": "debug",
         "z": "1a7f55c947897d20",
         "name": "debug 3",
@@ -241,97 +237,194 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1120,
-        "y": 480,
+        "x": 880,
+        "y": 640,
         "wires": []
     },
     {
-        "id": "978364a6a1715966",
-        "type": "change",
+        "id": "6feced2934b3276b",
+        "type": "function",
         "z": "1a7f55c947897d20",
-        "name": "Change to String",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "changes to String",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 650,
+        "name": "get intern",
+        "func": "\nreturn msg.payload.internActivities;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
         "y": 560,
         "wires": [
             [
-                "bbbc03b5ee1d03fe"
+                "543e9346a32f1927"
             ]
         ]
     },
     {
-        "id": "bbbc03b5ee1d03fe",
-        "type": "debug",
+        "id": "b836172e55de4f46",
+        "type": "function",
         "z": "1a7f55c947897d20",
-        "name": "debug 4",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1060,
-        "y": 580,
-        "wires": []
-    },
-    {
-        "id": "6c61d0dbe0800b4a",
-        "type": "http in",
-        "z": "3e2778b895b77ae2",
-        "name": "",
-        "url": "/web",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 220,
-        "y": 100,
+        "name": "get extern",
+        "func": "msg.payload = msg.payload.externActivities\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 180,
         "wires": [
             [
-                "fa131bc493fa62a0"
+                "9badb57c66753082"
             ]
         ]
     },
     {
-        "id": "944184b7b46b1bbf",
-        "type": "http response",
-        "z": "3e2778b895b77ae2",
+        "id": "388d0dacf92d87b5",
+        "type": "http request",
+        "z": "1a7f55c947897d20",
         "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 530,
-        "y": 180,
-        "wires": []
-    },
-    {
-        "id": "fa131bc493fa62a0",
-        "type": "template",
-        "z": "3e2778b895b77ae2",
-        "name": "",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "<html>\n<head>\n<title>Node-RED Web sample</title>\n</head>\n<body>\n<h1>Hello Node-RED!!</h1>\n<h2>Menu 1</h2>\n<p>It is Node-RED sample webpage.</p>\n<hr>\n<h2>Menu 2</h2>\n<p>It is Node-RED sample webpage.</p>\n</body>\n</html>",
-        "output": "str",
-        "x": 380,
-        "y": 140,
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://haw.ifox-systems.de/api/v1/extern/Activities/add",
+        "tls": "",
+        "persist": true,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 850,
+        "y": 380,
         "wires": [
             [
-                "944184b7b46b1bbf"
+                "0f996fac0259dd29"
+            ]
+        ]
+    },
+    {
+        "id": "9badb57c66753082",
+        "type": "split",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 950,
+        "y": 220,
+        "wires": [
+            [
+                "388d0dacf92d87b5"
+            ]
+        ]
+    },
+    {
+        "id": "543e9346a32f1927",
+        "type": "split",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 850,
+        "y": 560,
+        "wires": [
+            [
+                "cb875ff9edbe1967"
+            ]
+        ]
+    },
+    {
+        "id": "cb875ff9edbe1967",
+        "type": "http request",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://haw.ifox-systems.de/api/v1/intern/Activities/add",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 650,
+        "y": 640,
+        "wires": [
+            [
+                "ea0b70bc99830f92"
+            ]
+        ]
+    },
+    {
+        "id": "bc259971c5588423",
+        "type": "link in",
+        "z": "1a7f55c947897d20",
+        "name": "Authorization",
+        "links": [
+            "64592643899f9f3c"
+        ],
+        "x": 95,
+        "y": 400,
+        "wires": [
+            [
+                "88359554b30b8162"
+            ]
+        ]
+    },
+    {
+        "id": "88359554b30b8162",
+        "type": "join",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": true,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 170,
+        "y": 340,
+        "wires": [
+            [
+                "ab9b75f5543399dd"
+            ]
+        ]
+    },
+    {
+        "id": "ab9b75f5543399dd",
+        "type": "function",
+        "z": "1a7f55c947897d20",
+        "name": "add authorization header",
+        "func": "msg.headers = {\n\n    Authorization: \"Bearer \"+msg.payload.authorization.token\n\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 420,
+        "wires": [
+            [
+                "d6acb8a1b4f7c3c9"
             ]
         ]
     }
