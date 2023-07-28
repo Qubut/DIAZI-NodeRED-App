@@ -1,0 +1,338 @@
+[
+    {
+        "id": "1a7f55c947897d20",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3e2778b895b77ae2",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ca73e8ec053ff923",
+        "type": "inject",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"name\":\"Taiji\"}",
+        "payloadType": "json",
+        "x": 260,
+        "y": 160,
+        "wires": [
+            [
+                "5ff974596e6f9386"
+            ]
+        ]
+    },
+    {
+        "id": "5ff974596e6f9386",
+        "type": "debug",
+        "z": "1a7f55c947897d20",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "28032a3fb82ae195",
+        "type": "complete",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "scope": [
+            "ca73e8ec053ff923"
+        ],
+        "uncaught": false,
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "5ff974596e6f9386"
+            ]
+        ]
+    },
+    {
+        "id": "2dc6bad7a2322ddb",
+        "type": "catch",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 140,
+        "y": 300,
+        "wires": [
+            [
+                "5ff974596e6f9386"
+            ]
+        ]
+    },
+    {
+        "id": "6495382e70debf8f",
+        "type": "function",
+        "z": "1a7f55c947897d20",
+        "name": "generate random number",
+        "func": "// generate random number\nvar min = 1;\nvar max = 10;\nvar a = Math.floor(Math.random() * (max + 1 - min)) +\n    min;\n// set random number to message\nmsg.payload = a;\n// return message\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 440,
+        "wires": [
+            [
+                "7f0fa86257b49f14",
+                "978364a6a1715966"
+            ]
+        ]
+    },
+    {
+        "id": "3934529b6276908e",
+        "type": "inject",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 380,
+        "wires": [
+            [
+                "6495382e70debf8f",
+                "0f996fac0259dd29"
+            ]
+        ]
+    },
+    {
+        "id": "0f996fac0259dd29",
+        "type": "debug",
+        "z": "1a7f55c947897d20",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "7f0fa86257b49f14",
+        "type": "switch",
+        "z": "1a7f55c947897d20",
+        "name": "Big and Small",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "5",
+                "vt": "num"
+            },
+            {
+                "t": "lt",
+                "v": "6",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 620,
+        "y": 460,
+        "wires": [
+            [
+                "5d431436023ec066"
+            ],
+            [
+                "7c9d9342ae28d2a1"
+            ]
+        ]
+    },
+    {
+        "id": "5d431436023ec066",
+        "type": "template",
+        "z": "1a7f55c947897d20",
+        "name": "Output big",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "The number is big: {{payload}} !",
+        "output": "str",
+        "x": 950,
+        "y": 440,
+        "wires": [
+            [
+                "f140869ae6d4953f"
+            ]
+        ]
+    },
+    {
+        "id": "7c9d9342ae28d2a1",
+        "type": "template",
+        "z": "1a7f55c947897d20",
+        "name": "Output small",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "The number is small: {{payload}} !",
+        "output": "str",
+        "x": 910,
+        "y": 520,
+        "wires": [
+            [
+                "f140869ae6d4953f"
+            ]
+        ]
+    },
+    {
+        "id": "f140869ae6d4953f",
+        "type": "debug",
+        "z": "1a7f55c947897d20",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "978364a6a1715966",
+        "type": "change",
+        "z": "1a7f55c947897d20",
+        "name": "Change to String",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "changes to String",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 560,
+        "wires": [
+            [
+                "bbbc03b5ee1d03fe"
+            ]
+        ]
+    },
+    {
+        "id": "bbbc03b5ee1d03fe",
+        "type": "debug",
+        "z": "1a7f55c947897d20",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "6c61d0dbe0800b4a",
+        "type": "http in",
+        "z": "3e2778b895b77ae2",
+        "name": "",
+        "url": "/web",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 220,
+        "y": 100,
+        "wires": [
+            [
+                "fa131bc493fa62a0"
+            ]
+        ]
+    },
+    {
+        "id": "944184b7b46b1bbf",
+        "type": "http response",
+        "z": "3e2778b895b77ae2",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 530,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "fa131bc493fa62a0",
+        "type": "template",
+        "z": "3e2778b895b77ae2",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>\n<head>\n<title>Node-RED Web sample</title>\n</head>\n<body>\n<h1>Hello Node-RED!!</h1>\n<h2>Menu 1</h2>\n<p>It is Node-RED sample webpage.</p>\n<hr>\n<h2>Menu 2</h2>\n<p>It is Node-RED sample webpage.</p>\n</body>\n</html>",
+        "output": "str",
+        "x": 380,
+        "y": 140,
+        "wires": [
+            [
+                "944184b7b46b1bbf"
+            ]
+        ]
+    }
+]
