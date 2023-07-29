@@ -2,17 +2,17 @@
     {
         "id": "3e2778b895b77ae2",
         "type": "tab",
-        "label": "Flow 2",
+        "label": "Authorization",
         "disabled": false,
-        "info": "",
+        "info": "This flow is responsible for retrieving\nthe Bearer token for Authorization",
         "env": []
     },
     {
         "id": "1a7f55c947897d20",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "Activities processing",
         "disabled": false,
-        "info": "",
+        "info": "This flow processes the acitivities\nextracted from the json Object and\nthe sends them through a POST req.\nto IFOX",
         "env": []
     },
     {
