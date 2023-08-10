@@ -8,6 +8,14 @@
         "env": []
     },
     {
+        "id": "bbc36350aaf7bd73",
+        "type": "tab",
+        "label": "Processing raw-json",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "0f996fac0259dd29",
         "type": "debug",
         "z": "1a7f55c947897d20",
@@ -44,8 +52,7 @@
         "y": 380,
         "wires": [
             [
-                "0f996fac0259dd29",
-                "c4923786ee293bee"
+                "0f996fac0259dd29"
             ]
         ]
     },
@@ -114,19 +121,6 @@
                 "9badb57c66753082"
             ]
         ]
-    },
-    {
-        "id": "c4923786ee293bee",
-        "type": "link out",
-        "z": "1a7f55c947897d20",
-        "name": "Response",
-        "mode": "link",
-        "links": [
-            "40df94ba61890171"
-        ],
-        "x": 1095,
-        "y": 500,
-        "wires": []
     },
     {
         "id": "84e53e8ed1e6756f",
