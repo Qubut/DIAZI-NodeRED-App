@@ -8,29 +8,31 @@
         "env": []
     },
     {
-        "id": "bbc36350aaf7bd73",
-        "type": "tab",
-        "label": "Processing raw-json",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "0f996fac0259dd29",
-        "type": "debug",
-        "z": "1a7f55c947897d20",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1100,
-        "y": 340,
-        "wires": []
+        "id": "eee073b556a5c002",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "5",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
     },
     {
         "id": "388d0dacf92d87b5",
@@ -48,11 +50,12 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 850,
-        "y": 380,
+        "x": 1030,
+        "y": 300,
         "wires": [
             [
-                "0f996fac0259dd29"
+                "58ae7552dd7cd450",
+                "bd7acd6ac9f5bb0f"
             ]
         ]
     },
@@ -67,8 +70,8 @@
         "arraySpltType": "len",
         "stream": false,
         "addname": "",
-        "x": 950,
-        "y": 220,
+        "x": 850,
+        "y": 300,
         "wires": [
             [
                 "388d0dacf92d87b5"
@@ -95,8 +98,8 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 350,
-        "y": 340,
+        "x": 410,
+        "y": 220,
         "wires": [
             [
                 "ab9b75f5543399dd"
@@ -108,14 +111,77 @@
         "type": "function",
         "z": "1a7f55c947897d20",
         "name": "add authorization header",
-        "func": "msg.headers = {\n\n    'Authorization': \"Bearer \"+msg.payload.authorization.token,\n    'Content-Type': 'application/json'\n\n}\nmsg.payload = msg.payload.data.machines\nreturn msg;",
+        "func": "msg.headers = {\n\n    'Authorization': \"Bearer \" + msg.payload[\"/authentication/token\"],\n    'Content-Type': 'application/json'\n\n}\nmsg.payload = msg.payload[\"/file/json\"]\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 280,
+        "x": 410,
+        "y": 360,
+        "wires": [
+            [
+                "94b296b07db386a2"
+            ]
+        ]
+    },
+    {
+        "id": "82697f3394676093",
+        "type": "mqtt in",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "topic": "/file/json",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "eee073b556a5c002",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 100,
+        "wires": [
+            [
+                "b4ef33cf061ae806",
+                "88359554b30b8162"
+            ]
+        ]
+    },
+    {
+        "id": "ccd157a130533489",
+        "type": "mqtt in",
+        "z": "1a7f55c947897d20",
+        "name": "token",
+        "topic": "/authentication/token",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "eee073b556a5c002",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 220,
+        "wires": [
+            [
+                "88359554b30b8162",
+                "66095d4e8972f7c8"
+            ]
+        ]
+    },
+    {
+        "id": "94b296b07db386a2",
+        "type": "function",
+        "z": "1a7f55c947897d20",
+        "name": "processing",
+        "func": "\nconst payload = msg.payload\nconst BASEDATE = '2023-07-18T22:00:00.000Z';\n/**\n * Formats a date by adding a specified amount of time (in seconds) \n * to a base date and returns the result in the format 'YYYY-MM-DD HH:MM:SS.SSSSSS'.\n *\n * @param {string} baseDate - The base date in ISO format.\n * @param {number} time - The time in seconds to add to the base date.\n * @return {string} - Formatted date string.\n */\nfunction formatDate(time,baseDate=BASEDATE) {\n  \n    const date = new Date(baseDate);\n    const seconds = Math.floor(time);\n    const microseconds = Math.round((time - seconds) * 1e6);\n    date.setSeconds(seconds);\n    date.setMilliseconds(microseconds / 1000);\n\n    // Format the microseconds to ensure it always has 6 digits\n    const formattedMicroseconds = microseconds.toString().padStart(6, '0');\n    const isoString = date.toISOString().slice(0, -1);\n\n    // the desired format \"YYYY-MM-DD HH:MM:SS.SSSSSS\"\n    const formattedDate = `${isoString.slice(0, 10)} ${isoString.slice(11, 19)}.${formattedMicroseconds}`;\n\n    return formattedDate;\n}\n\n\n\nif (payload.hasOwnProperty('activities') &&\n    Array.isArray(payload.activities) &&\n    payload.activities.length > 0) {\n    const activities = payload.activities\n    msg.payload = activities\n    return msg\n}\nelse if (payload.hasOwnProperty('Resources') &&\n    payload.Resources.length > 0 &&\n    payload.Resources[0].hasOwnProperty('Activities') &&\n    Array.isArray(payload.Resources[0].Activities)) {\n    msg.payload = payload.Resources.flatMap((resource) => {\n\n        return resource.Activities.map((activity) => {\n            return {\n                start: formatDate(activity.StartTime),\n                end: formatDate(activity.EndTime),\n                externProductId: \"\",\n                externResourceIdPerson: resource.DisplayName,\n                externProcessId: (activity.State == 'Idle') ? 'Idle' : 'Busy',\n                reason: \"commend\"\n\n            }\n        })\n    })\n}\nelse {\n    throw new Error('invalid format')\n}\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 360,
         "wires": [
             [
                 "9badb57c66753082"
@@ -123,99 +189,258 @@
         ]
     },
     {
-        "id": "84e53e8ed1e6756f",
-        "type": "http in",
+        "id": "bd7acd6ac9f5bb0f",
+        "type": "debug",
         "z": "1a7f55c947897d20",
-        "name": "authentication",
-        "url": "/authentication",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 130,
-        "y": 480,
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "counter",
+        "x": 1195,
+        "y": 400,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "bffa4a8a4180f09d",
+        "type": "mqtt out",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "topic": "/file/received",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "eee073b556a5c002",
+        "x": 670,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b4ef33cf061ae806",
+        "type": "function",
+        "z": "1a7f55c947897d20",
+        "name": "set payload",
+        "func": "msg.payload = {received:true}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 40,
         "wires": [
             [
-                "df0038fe2b58fae9",
-                "fd7b85639544d84c"
+                "bffa4a8a4180f09d"
             ]
         ]
     },
     {
-        "id": "df0038fe2b58fae9",
-        "type": "http response",
+        "id": "e452e9fa71839f68",
+        "type": "catch",
         "z": "1a7f55c947897d20",
-        "name": "response",
-        "statusCode": "200",
-        "headers": {},
-        "x": 160,
-        "y": 600,
-        "wires": []
+        "name": "",
+        "scope": [
+            "94b296b07db386a2"
+        ],
+        "uncaught": false,
+        "x": 630,
+        "y": 500,
+        "wires": [
+            [
+                "b1bbbf5d8e979d23"
+            ]
+        ]
     },
     {
-        "id": "01f4136a892d872c",
-        "type": "http in",
+        "id": "b1bbbf5d8e979d23",
+        "type": "function",
         "z": "1a7f55c947897d20",
-        "name": "data",
-        "url": "/data",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 90,
+        "name": "reject",
+        "func": "msg.payload = {accepted:false}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 500,
+        "wires": [
+            [
+                "beef18b525914e8a"
+            ]
+        ]
+    },
+    {
+        "id": "b76921599904f5c6",
+        "type": "complete",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "scope": [
+            "9badb57c66753082"
+        ],
+        "uncaught": false,
+        "x": 830,
         "y": 240,
         "wires": [
             [
-                "6220bfd913d5e1d7",
-                "6d112815747b0e9b"
+                "a3e5711bc826d3e2"
             ]
         ]
     },
     {
-        "id": "6220bfd913d5e1d7",
-        "type": "http response",
+        "id": "beef18b525914e8a",
+        "type": "mqtt out",
         "z": "1a7f55c947897d20",
-        "name": "response",
-        "statusCode": "200",
-        "headers": {},
-        "x": 260,
-        "y": 160,
+        "name": "",
+        "topic": "/file/accepted",
+        "qos": "2",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "application/json",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "eee073b556a5c002",
+        "x": 1010,
+        "y": 500,
         "wires": []
     },
     {
-        "id": "6d112815747b0e9b",
+        "id": "e81704b7c27c4dd0",
+        "type": "mqtt out",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "topic": "/file/accepted",
+        "qos": "2",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "application/json",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "eee073b556a5c002",
+        "x": 1190,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "a3e5711bc826d3e2",
         "type": "function",
         "z": "1a7f55c947897d20",
-        "name": "Add topic",
-        "func": "msg.topic = 'data'\nreturn msg;",
+        "name": "accept",
+        "func": "msg.payload = {accepted:true}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 260,
-        "y": 260,
+        "x": 1010,
+        "y": 240,
         "wires": [
             [
-                "88359554b30b8162"
+                "e81704b7c27c4dd0"
             ]
         ]
     },
     {
-        "id": "fd7b85639544d84c",
+        "id": "2e1b6ab97340458a",
+        "type": "mqtt out",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "topic": "/token/received",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "eee073b556a5c002",
+        "x": 680,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "66095d4e8972f7c8",
         "type": "function",
         "z": "1a7f55c947897d20",
-        "name": "Add topic",
-        "func": "msg.topic = 'authorization'\nreturn msg;",
+        "name": "set payload",
+        "func": "msg.payload = {received:true}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 180,
-        "y": 400,
+        "x": 450,
+        "y": 100,
         "wires": [
             [
-                "88359554b30b8162"
+                "2e1b6ab97340458a"
             ]
+        ]
+    },
+    {
+        "id": "58ae7552dd7cd450",
+        "type": "mqtt out",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "topic": "/api/status",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "eee073b556a5c002",
+        "x": 1230,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "97eede7d535feff5",
+        "type": "mqtt out",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "topic": "/resources",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "application/json",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "eee073b556a5c002",
+        "x": 910,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "e20507fb55a8724a",
+        "type": "mqtt in",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "topic": "/resources/edited",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "eee073b556a5c002",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 640,
+        "y": 260,
+        "wires": [
+            []
         ]
     }
 ]
