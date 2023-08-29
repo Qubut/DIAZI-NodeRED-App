@@ -405,42 +405,5 @@
         "x": 1230,
         "y": 300,
         "wires": []
-    },
-    {
-        "id": "97eede7d535feff5",
-        "type": "mqtt out",
-        "z": "1a7f55c947897d20",
-        "name": "",
-        "topic": "/resources",
-        "qos": "2",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "application/json",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "eee073b556a5c002",
-        "x": 910,
-        "y": 400,
-        "wires": []
-    },
-    {
-        "id": "e20507fb55a8724a",
-        "type": "mqtt in",
-        "z": "1a7f55c947897d20",
-        "name": "",
-        "topic": "/resources/edited",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "eee073b556a5c002",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 640,
-        "y": 260,
-        "wires": [
-            []
-        ]
     }
 ]
