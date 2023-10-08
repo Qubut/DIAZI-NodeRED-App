@@ -39,11 +39,54 @@
         "in": [],
         "out": [
             {
-                "x": 640,
-                "y": 400,
+                "x": 1300,
+                "y": 240,
                 "wires": [
                     {
                         "id": "94b296b07db386a2",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "afcc9e461e29261b",
+        "type": "subflow",
+        "name": "token podcasting",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "870e31d9fb8670a3",
+        "type": "subflow",
+        "name": "Subflow 1",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
+        "id": "45657a9a6a99105a",
+        "type": "subflow",
+        "name": "Authorization and Resources fetching",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 980,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "4984421a904889ac",
                         "port": 0
                     }
                 ]
@@ -131,7 +174,6 @@
         "y": 200,
         "wires": [
             [
-                "61e9f69133439a27",
                 "82ad7d75aed5f097"
             ]
         ]
@@ -151,28 +193,9 @@
         "y": 120,
         "wires": [
             [
-                "61e9f69133439a27",
                 "82ad7d75aed5f097"
             ]
         ]
-    },
-    {
-        "id": "61e9f69133439a27",
-        "type": "debug",
-        "z": "5813698dd43a8415",
-        "name": "debug 6",
-        "active": true,
-        "tosidebar": true,
-        "console": true,
-        "tostatus": true,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "counter",
-        "x": 685,
-        "y": 280,
-        "wires": [],
-        "l": false
     },
     {
         "id": "914609fdf5f39b4d",
@@ -223,34 +246,6 @@
         ]
     },
     {
-        "id": "88359554b30b8162",
-        "type": "join",
-        "z": "f5bc973247a5d1ae",
-        "name": "",
-        "mode": "custom",
-        "build": "object",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "\\n",
-        "joinerType": "str",
-        "accumulate": true,
-        "timeout": "",
-        "count": "2",
-        "reduceRight": false,
-        "reduceExp": "",
-        "reduceInit": "",
-        "reduceInitType": "",
-        "reduceFixup": "",
-        "x": 450,
-        "y": 260,
-        "wires": [
-            [
-                "94b296b07db386a2"
-            ]
-        ]
-    },
-    {
         "id": "82697f3394676093",
         "type": "mqtt in",
         "z": "f5bc973247a5d1ae",
@@ -263,34 +258,12 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 200,
+        "x": 380,
         "y": 140,
         "wires": [
             [
                 "b4ef33cf061ae806",
-                "88359554b30b8162"
-            ]
-        ]
-    },
-    {
-        "id": "ccd157a130533489",
-        "type": "mqtt in",
-        "z": "f5bc973247a5d1ae",
-        "name": "token",
-        "topic": "/authentication/token",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "eee073b556a5c002",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 210,
-        "y": 260,
-        "wires": [
-            [
-                "88359554b30b8162",
-                "66095d4e8972f7c8"
+                "46bccd62d1e43c0e"
             ]
         ]
     },
@@ -305,8 +278,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
-        "y": 400,
+        "x": 1170,
+        "y": 240,
         "wires": [
             []
         ]
@@ -325,8 +298,8 @@
         "correl": "",
         "expiry": "",
         "broker": "eee073b556a5c002",
-        "x": 710,
-        "y": 80,
+        "x": 750,
+        "y": 140,
         "wires": []
     },
     {
@@ -340,8 +313,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
-        "y": 80,
+        "x": 570,
+        "y": 140,
         "wires": [
             [
                 "bffa4a8a4180f09d"
@@ -349,9 +322,190 @@
         ]
     },
     {
+        "id": "04e33c2c734a44f4",
+        "type": "subflow:afcc9e461e29261b",
+        "z": "f5bc973247a5d1ae",
+        "name": "token podcasting",
+        "x": 300,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "de28d995c3bbc7ba",
+        "type": "join",
+        "z": "f5bc973247a5d1ae",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": true,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 810,
+        "y": 240,
+        "wires": [
+            [
+                "4ab00291f3c41a5a"
+            ]
+        ]
+    },
+    {
+        "id": "46bccd62d1e43c0e",
+        "type": "function",
+        "z": "f5bc973247a5d1ae",
+        "name": "change topic",
+        "func": "msg.topic=\"data\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 220,
+        "wires": [
+            [
+                "de28d995c3bbc7ba"
+            ]
+        ]
+    },
+    {
+        "id": "4ab00291f3c41a5a",
+        "type": "function",
+        "z": "f5bc973247a5d1ae",
+        "name": "check resources",
+        "func": "/**\n * Uses the provided data to manage resources.\n * - Compares a list of resources against an API resource list.\n * - For any resource not found in the API list, it sends a POST request to add that resource.\n * - Combines the list of found resources with those successfully created and updates the payload.\n * \n * @global {Function} axios - Axios library instance for making HTTP requests.\n * @param {Object} msg - The message object containing payload with resources data.\n * @returns {Object} - Updated message object with combined data of found and successfully created resources.\n */\nconst axios = global.get('axios');\n\nconst resources = msg.payload[\"data\"][\"Resources\"];\nconst apiResources = msg.payload[\"resources\"];\nconst found = resources.filter(resource => apiResources.some(apiResource => apiResource.name === resource.DisplayName));\nconst notFound = resources.filter(resource => !apiResources.some(apiResource => apiResource.name === resource.DisplayName));\n\nlet successfullyCreated = [];\n\n/**\n * Sends a POST request to create a given resource.\n * If the creation is successful, the resource is added to the successfullyCreated list.\n * \n * @async\n * @param {Object} resource - The resource object to be created.\n */\nconst createResource = async (resource) => {\n    const endpoint = 'https://haw.ifox-systems.de/api/v1/intern/Resources/addresource';\n    const r = { ...apiResources[0], name: resource[\"DisplayName\"] };\n    delete r[\"id\"];\n\n    try {\n        const response = await axios.post(endpoint, { r });\n        if (response.status === 200 || response.status === 201) {\n            successfullyCreated.push(resource);\n        }\n    } catch (error) {\n        console.error(`Failed to create resource \"${resource.DisplayName}\":`, error.message);\n    }\n}\n\nconst requests = notFound.map(resource => createResource(resource));\n\nPromise.all(requests).then(() => {\n    msg.payload = { ...msg.payload[\"data\"], Resources: found.concat(successfullyCreated)}\n});\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 240,
+        "wires": [
+            [
+                "94b296b07db386a2"
+            ]
+        ]
+    },
+    {
+        "id": "871635d98626f185",
+        "type": "subflow:45657a9a6a99105a",
+        "z": "f5bc973247a5d1ae",
+        "name": "",
+        "x": 550,
+        "y": 280,
+        "wires": [
+            [
+                "de28d995c3bbc7ba"
+            ]
+        ]
+    },
+    {
+        "id": "fd349df7f73d6c64",
+        "type": "mqtt out",
+        "z": "afcc9e461e29261b",
+        "name": "podcast token",
+        "topic": "/authentication/token",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "eee073b556a5c002",
+        "x": 560,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "edddc2ebea7280ea",
+        "type": "http request",
+        "z": "afcc9e461e29261b",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://haw.ifox-systems.de/api/v1/general/Auth/login",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 350,
+        "y": 300,
+        "wires": [
+            [
+                "fd349df7f73d6c64"
+            ]
+        ]
+    },
+    {
+        "id": "924c5dd613199772",
+        "type": "inject",
+        "z": "afcc9e461e29261b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "/authentication/token",
+        "payload": "{  \"userName\": \"test\",   \"password\": \"password\"}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 300,
+        "wires": [
+            [
+                "edddc2ebea7280ea"
+            ]
+        ]
+    },
+    {
+        "id": "ccd157a130533489",
+        "type": "mqtt in",
+        "z": "45657a9a6a99105a",
+        "name": "token",
+        "topic": "/authentication/token",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "eee073b556a5c002",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 120,
+        "wires": [
+            [
+                "66095d4e8972f7c8",
+                "3e1591393da51211"
+            ]
+        ]
+    },
+    {
         "id": "2e1b6ab97340458a",
         "type": "mqtt out",
-        "z": "f5bc973247a5d1ae",
+        "z": "45657a9a6a99105a",
         "name": "",
         "topic": "/token/received",
         "qos": "",
@@ -362,14 +516,14 @@
         "correl": "",
         "expiry": "",
         "broker": "eee073b556a5c002",
-        "x": 720,
-        "y": 140,
+        "x": 660,
+        "y": 80,
         "wires": []
     },
     {
         "id": "66095d4e8972f7c8",
         "type": "function",
-        "z": "f5bc973247a5d1ae",
+        "z": "45657a9a6a99105a",
         "name": "set payload",
         "func": "msg.payload = {received:true}\nreturn msg;",
         "outputs": 1,
@@ -377,12 +531,72 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
-        "y": 140,
+        "x": 350,
+        "y": 80,
         "wires": [
             [
                 "2e1b6ab97340458a"
             ]
+        ]
+    },
+    {
+        "id": "3e1591393da51211",
+        "type": "function",
+        "z": "45657a9a6a99105a",
+        "name": "add authorization header",
+        "func": "msg.headers = {\n\n    'Authorization': \"Bearer \" + msg.payload[\"token\"],\n    'Content-Type': 'application/json'\n\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 140,
+        "wires": [
+            [
+                "5acced3fdccc2378"
+            ]
+        ]
+    },
+    {
+        "id": "5acced3fdccc2378",
+        "type": "http request",
+        "z": "45657a9a6a99105a",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://haw.ifox-systems.de/api/v1/intern/Resources",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 650,
+        "y": 140,
+        "wires": [
+            [
+                "4984421a904889ac"
+            ]
+        ]
+    },
+    {
+        "id": "4984421a904889ac",
+        "type": "function",
+        "z": "45657a9a6a99105a",
+        "name": "change topic",
+        "func": "msg.topic=\"resources\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 160,
+        "wires": [
+            []
         ]
     },
     {
@@ -401,7 +615,7 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 1030,
+        "x": 1090,
         "y": 340,
         "wires": [
             [
@@ -421,11 +635,11 @@
         "arraySpltType": "len",
         "stream": false,
         "addname": "",
-        "x": 850,
-        "y": 340,
+        "x": 750,
+        "y": 320,
         "wires": [
             [
-                "388d0dacf92d87b5"
+                "4cc2ba34a2d7f9e0"
             ]
         ]
     },
@@ -566,11 +780,12 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 340,
+        "x": 590,
+        "y": 400,
         "wires": [
             [
-                "9badb57c66753082"
+                "9badb57c66753082",
+                "8cb5b0b9c2eb5ed8"
             ]
         ]
     },
@@ -592,11 +807,54 @@
         "type": "subflow:f5bc973247a5d1ae",
         "z": "1a7f55c947897d20",
         "name": "MQTT",
-        "x": 330,
-        "y": 300,
+        "x": 350,
+        "y": 320,
         "wires": [
             [
-                "ab9b75f5543399dd"
+                "9badb57c66753082"
+            ]
+        ]
+    },
+    {
+        "id": "8cb5b0b9c2eb5ed8",
+        "type": "debug",
+        "z": "1a7f55c947897d20",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "counter",
+        "x": 815,
+        "y": 420,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "4cc2ba34a2d7f9e0",
+        "type": "delay",
+        "z": "1a7f55c947897d20",
+        "name": "",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "2",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 920,
+        "y": 340,
+        "wires": [
+            [
+                "388d0dacf92d87b5"
             ]
         ]
     }
